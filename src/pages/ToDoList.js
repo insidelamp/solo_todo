@@ -83,7 +83,7 @@ function ToDoList() {
       ) : (
         <TodoContentsMain>
           <TodoTitle>MyToDo</TodoTitle>
-          <ToDo datas={datas} todoContent={todoContent} todoTitle={todoTitle} />
+          <ToDo datas={datas} refetch={refetch} />
           <CreateToDo onClick={addTodo}>추가</CreateToDo>
           <Footer />
         </TodoContentsMain>

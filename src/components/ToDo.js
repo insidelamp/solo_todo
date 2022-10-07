@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { fetchDelete, fetchPatch } from "../api/api";
-function ToDo({ datas, todoContent, todoTitle }) {
+function ToDo({ datas, refetch }) {
   const [updataModal, setUpdataModal] = useState(false);
   const [updataTitle, setUpdataTitle] = useState("");
   const [updataContent, setUpdataContent] = useState("");
@@ -28,6 +28,7 @@ function ToDo({ datas, todoContent, todoTitle }) {
   const deleteToDo = (id) => {
     // 제거 버튼에 먹일 함수
     fetchDelete("http://localhost:3001/memo/", id);
+    refetch();
   };
 
   const updateModal = () => {
@@ -93,7 +94,7 @@ function ToDo({ datas, todoContent, todoTitle }) {
                   >
                     수정
                   </ToDoBtn>
-                  <ToDoBtn onClick={deleteToDo}>삭제</ToDoBtn>
+                  <ToDoBtn onClick={() => deleteToDo(data.id)}>삭제</ToDoBtn>
                 </ToDoBtnInteraction>
               </ToDoBtnSpace>
             </ToDoSpaceContents>

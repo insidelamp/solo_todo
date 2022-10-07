@@ -3,16 +3,16 @@
     {
       "title": "test1",
       "body": "test1",
-      "nowYear": "2022.7.5",
-      "nowDate": "오후 11:41:35",
-      "id": 1
+      "nowYear": "2022.8.6",
+      "nowDate": "오전 12:39:48",
+      "id": 4
     },
     {
       "title": "test2",
       "body": "test2",
       "nowYear": "2022.8.6",
-      "nowDate": "오전 12:01:35",
-      "id": 2
+      "nowDate": "오전 12:39:53",
+      "id": 5
     }
   ]
 }

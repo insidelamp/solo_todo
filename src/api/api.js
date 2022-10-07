@@ -16,11 +16,11 @@ export const fetchCreate = (url, data) => {
 };
 //삭제
 export const fetchDelete = (url, id) => {
-  fetch(`${url}`, {
+  fetch(`${url}/${id}`, {
     method: "DELETE",
   })
     .then((data) => {
-      console.log(data, id);
+      console.log(data);
       // data.filter((el) => el.id == id);
     })
     .catch((error) => {
