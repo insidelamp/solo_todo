@@ -8,7 +8,9 @@ import useFetch from "../CutomComponent/useFetch";
 import { fetchCreate, fetchGet } from "../api/api";
 
 function ToDoList() {
-  const [datas, isPending, error] = useFetch("http://localhost:3001/memo/");
+  const [datas, isPending, error, refetch] = useFetch(
+    "http://localhost:3001/memo/"
+  );
   // const [date, setDate] = useState("");
   // console.log(date);
   const [isOpen, setIsOpen] = useState(false);
@@ -39,11 +41,18 @@ function ToDoList() {
     const data = {
       title: todoTitle,
       body: todoContent,
-      data: new Date().toLocaleTimeString(),
+      nowYear:
+        new Date().getFullYear() +
+        "." +
+        new Date().getDate() +
+        "." +
+        new Date().getDay(),
+      nowDate: new Date().toLocaleTimeString(),
     };
     fetchCreate("http://localhost:3001/memo/", data);
+    addTodo();
+    refetch();
   };
-  // useEffect(() => {}, [datas]); // 데이터가 변화가 일어나면 useEffect 가 변하도록 설정할것
 
   return (
     <MainTodo>
@@ -52,7 +61,11 @@ function ToDoList() {
         <TodoContentsMain onClick={addTodo}>
           <TodoTitle>MyToDo</TodoTitle>
           <ToDo datas={datas} />
-          <CreateModal onClick={(e) => e.stopPropagation()}>
+          <CreateModal
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <h2>ToDo 타이틀</h2>
             <input
               placeholder="타이틀을 작성해주세요!"

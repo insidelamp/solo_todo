@@ -4,6 +4,12 @@ const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
+  const [triger, setTriger] = useState(0);
+
+  const refetch = () => {
+    setData([...data]);
+    setTriger(Date.now());
+  };
 
   useEffect(() => {
     fetch(url)
@@ -22,9 +28,9 @@ const useFetch = (url) => {
         setIsPending(false);
         setError(err.message);
       });
-  }, [url]);
+  }, [triger]);
 
-  return [data, isPending, error];
+  return [data, isPending, error, refetch];
 };
 
 export default useFetch;

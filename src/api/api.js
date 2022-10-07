@@ -1,17 +1,5 @@
 const BASE_URL = "http://localhost:3000/";
-//가져오기
-export const fetchGet = async (url) => {
-  await fetch(url, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.error("Error", error);
-    });
-};
+
 //추가
 export const fetchCreate = (url, data) => {
   fetch(url, {
@@ -28,11 +16,12 @@ export const fetchCreate = (url, data) => {
 };
 //삭제
 export const fetchDelete = (url, id) => {
-  fetch(`${url}${id}`, {
+  fetch(`${url}`, {
     method: "DELETE",
   })
     .then((data) => {
-      console.log(data);
+      console.log(data, id);
+      // data.filter((el) => el.id == id);
     })
     .catch((error) => {
       console.error("Error", error);

@@ -15,14 +15,19 @@ function ToDo({ datas, todoContent, todoTitle }) {
       id: id,
       title: updataTitle,
       body: updataContent,
-      data: new Date().toLocaleTimeString(),
+      nowYear:
+        new Date().getFullYear() +
+        "." +
+        new Date().getDate() +
+        "." +
+        new Date().getDay(),
+      nowDate: new Date().toLocaleTimeString(),
     };
     fetchPatch("http://localhost:3001/memo/", pachData);
   };
-  const deleteToDo = (e) => {
+  const deleteToDo = (id) => {
     // 제거 버튼에 먹일 함수
-    e.preventDefault();
-    // fetchDelete;
+    fetchDelete("http://localhost:3001/memo/", id);
   };
 
   const updateModal = () => {
@@ -40,7 +45,8 @@ function ToDo({ datas, todoContent, todoTitle }) {
                 <ToDoContentBody>{data.body}</ToDoContentBody>
               </ToDoSpaceContent>
               <ToDoBtnSpace>
-                <ToDoDateSpace>{data.data}</ToDoDateSpace>
+                <ToDoDateSpace>{data.nowYear}</ToDoDateSpace>
+                <ToDoDateSpace>{data.nowDate}</ToDoDateSpace>
                 <ToDoBtnInteraction>
                   <ToDoBtn
                     onClick={(e, id) => {
@@ -77,7 +83,8 @@ function ToDo({ datas, todoContent, todoTitle }) {
                 <ToDoContentBody>{data.body}</ToDoContentBody>
               </ToDoSpaceContent>
               <ToDoBtnSpace>
-                <ToDoDateSpace>{data.data}</ToDoDateSpace>
+                <ToDoDateSpace>{data.nowYear}</ToDoDateSpace>
+                <ToDoDateSpace>{data.nowDate}</ToDoDateSpace>
                 <ToDoBtnInteraction>
                   <ToDoBtn
                     onClick={(e, id) => {
@@ -115,7 +122,7 @@ const ToDoSpaceContent = styled.div`
 `;
 const ToDoSpaceContents = styled.div`
   border: 1px solid blue;
-  width: 80%;
+  width: 90%;
   margin: 10px 0px;
   display: flex;
   justify-content: space-between;
@@ -123,28 +130,40 @@ const ToDoSpaceContents = styled.div`
 `;
 
 const ToDoContentTitle = styled.div`
-  border: 1px solid blue;
-  width: 100%;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-left: 5px;
+  height: 40%;
+  width: 95%;
   color: blue;
+  padding: 5px 0px 0px 5px;
 `;
 const ToDoContentBody = styled.div`
-  border: 1px solid blue;
-  width: 100%;
-  font-weight: bolder;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-left: 5px;
+  height: 40%;
+  width: 95%;
+  color: blue;
+  padding: 5px 0px 0px 5px;
 `;
 const ToDoBtnSpace = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%;
+  width: 40%;
   height: 100%;
 `;
 const ToDoDateSpace = styled.div`
   width: 100%;
-  height: 40%;
+  height: 20%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  border: 1px solid red;
+  align-items: center;
+  &:nth-child(1) {
+    margin: 5px 0px;
+  }
 `;
 const ToDoBtnInteraction = styled.div`
   display: flex;
