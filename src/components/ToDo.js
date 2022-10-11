@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import useFetch from "../CutomComponent/useFetch";
 import { fetchDelete, fetchPatch } from "../api/api";
 function ToDo({ datas, refetch }) {
   const [updataModal, setUpdataModal] = useState(false);
   const [updataTitle, setUpdataTitle] = useState("");
   const [updataContent, setUpdataContent] = useState("");
+  const [upId, setUpId] = useState("");
 
-  const updateToDo = (e, id) => {
+  const updateToDo = () => {
     // 수정 모달의 제출버튼에 먹일 함수
-    e.preventDefault();
-    console.log(e, id);
-    let pachData = {
-      id: id,
+    let filterData = datas.filter((el) => el.id == upId);
+    let fetchData = {
+      id: filterData.id,
       title: updataTitle,
       body: updataContent,
       nowYear:
@@ -23,7 +24,7 @@ function ToDo({ datas, refetch }) {
         new Date().getDay(),
       nowDate: new Date().toLocaleTimeString(),
     };
-    fetchPatch("http://localhost:3001/memo/", pachData);
+    fetchPatch(`http://localhost:3001/memo/`, upId, fetchData);
   };
   const deleteToDo = (id) => {
     // 제거 버튼에 먹일 함수
@@ -31,9 +32,11 @@ function ToDo({ datas, refetch }) {
     refetch();
   };
 
-  const updateModal = () => {
+  const updateModal = (id) => {
     // 수정버튼에 먹일 함수
     setUpdataModal(!updataModal);
+    setUpId(id);
+    refetch();
   };
   return (
     <>
@@ -49,31 +52,32 @@ function ToDo({ datas, refetch }) {
                 <ToDoDateSpace>{data.nowYear}</ToDoDateSpace>
                 <ToDoDateSpace>{data.nowDate}</ToDoDateSpace>
                 <ToDoBtnInteraction>
-                  <ToDoBtn
-                    onClick={(e, id) => {
-                      updateModal(e, id);
-                    }}
-                  >
-                    수정
-                  </ToDoBtn>
+                  <ToDoBtn onClick={updateModal}>수정</ToDoBtn>
                   <ToDoBtn onClick={deleteToDo}>삭제</ToDoBtn>
                 </ToDoBtnInteraction>
               </ToDoBtnSpace>
             </ToDoSpaceContents>
           ))}
-          <CreateModal onClick={(e) => e.stopPropagation()}>
-            <h2>수정될 ToDo 타이틀</h2>
-            <input
+          <ModalSpace onClick={(e) => e.stopPropagation()}>
+            <ModalWriteTitles>수정될 ToDo 타이틀</ModalWriteTitles>
+            <ModalWriteInput
               placeholder="수정할 타이틀을 작성해주세요!"
               onChange={(e) => setUpdataTitle(e.target.value)}
             />
-            <h2>수정될 ToDo 콘텐츠</h2>
-            <input
+            <ModalWriteTitles>수정될 ToDo 콘텐츠</ModalWriteTitles>
+            <ModalWriteInput
               placeholder="수정할 콘텐츠를 작성해주세요!"
               onChange={(e) => setUpdataContent(e.target.value)}
             />
-            <button onClick={updateToDo}>제출</button>
-          </CreateModal>
+            <ModalSubmitBtn
+              onClick={() => {
+                updateToDo();
+                updateModal();
+              }}
+            >
+              제출
+            </ModalSubmitBtn>
+          </ModalSpace>
         </ToDoSpace>
       ) : (
         <ToDoSpace>
@@ -87,13 +91,7 @@ function ToDo({ datas, refetch }) {
                 <ToDoDateSpace>{data.nowYear}</ToDoDateSpace>
                 <ToDoDateSpace>{data.nowDate}</ToDoDateSpace>
                 <ToDoBtnInteraction>
-                  <ToDoBtn
-                    onClick={(e, id) => {
-                      updateModal(e, id);
-                    }}
-                  >
-                    수정
-                  </ToDoBtn>
+                  <ToDoBtn onClick={() => updateModal(data.id)}>수정</ToDoBtn>
                   <ToDoBtn onClick={() => deleteToDo(data.id)}>삭제</ToDoBtn>
                 </ToDoBtnInteraction>
               </ToDoBtnSpace>
@@ -106,13 +104,13 @@ function ToDo({ datas, refetch }) {
 }
 
 const ToDoSpace = styled.div`
-  border: 5px solid red;
   width: 80%;
   height: 100%;
   display: flex;
   margin-top: 20px;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
 `;
 const ToDoSpaceContent = styled.div`
   width: 100%;
@@ -182,17 +180,31 @@ const ToDoBtn = styled.button`
   border-radius: 50%;
 `;
 
-const CreateModal = styled.div`
+const ModalSpace = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: space-around;
   align-items: center;
   border: 1px solid blue;
-  width: 33%;
+  width: 26%;
   height: 30%;
-  top: 425px;
+  top: 470px;
   background-color: white;
+`;
+
+const ModalWriteTitles = styled.h1``;
+
+const ModalWriteInput = styled.input`
+  width: 70%;
+  height: 15%;
+  font-size: 15px;
+`;
+
+const ModalSubmitBtn = styled.button`
+  width: 20%;
+  height: 10%;
+  background-color: violet;
 `;
 
 export default ToDo;

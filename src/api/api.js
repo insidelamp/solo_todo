@@ -29,6 +29,7 @@ export const fetchDelete = (url, id) => {
 };
 // 수정
 export const fetchPatch = (url, id, data) => {
+  console.log(url, id, data);
   fetch(`${url}${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "Application/json" },

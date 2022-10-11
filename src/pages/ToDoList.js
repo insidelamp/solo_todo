@@ -1,41 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Moon from "../img/moon-g4a048f6f2_640.jpg";
 import ToDo from "../components/ToDo";
 import useFetch from "../CutomComponent/useFetch";
-import { fetchCreate, fetchGet } from "../api/api";
+import { fetchCreate } from "../api/api";
+import { ImArrowUp, ImArrowDown } from "react-icons/im";
+import useScroll from "../CutomComponent/useScroll";
 
 function ToDoList() {
   const [datas, isPending, error, refetch] = useFetch(
     "http://localhost:3001/memo/"
   );
-  // const [date, setDate] = useState("");
-  // console.log(date);
+  // const [setClick, setDown] = useScroll();
+
   const [isOpen, setIsOpen] = useState(false);
   const [todoContent, setTodoContent] = useState("");
   const [todoTitle, setTodoTitle] = useState("");
-  console.log(datas);
+  const [scroll, setScroll] = useState(false);
+
   const addTodo = () => {
     setIsOpen(!isOpen);
   };
-  // useEffect(() => {
-  //   fetch("http://localhost:3001/memo/")
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw Error("could not fetch the data for that resource");
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       setDate(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error", error);
-  //     });
-  // }, [date]);
+
+  // const scrollDown = () => {
+  //   setClick(true);
+  //   setDown(false);
+  // };
+  // const scrollUp = () => {
+  //   setClick(true);
+  //   setDown(true);
+  // };
 
   const createSubmit = () => {
     const data = {
@@ -61,29 +56,35 @@ function ToDoList() {
         <TodoContentsMain onClick={addTodo}>
           <TodoTitle>MyToDo</TodoTitle>
           <ToDo datas={datas} />
-          <CreateModal
+          <ModalSpace
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
-            <h2>ToDo 타이틀</h2>
-            <input
+            <ModalWriteTitles>ToDo 타이틀</ModalWriteTitles>
+            <ModalWriteInput
               placeholder="타이틀을 작성해주세요!"
               onChange={(e) => setTodoTitle(e.target.value)}
             />
-            <h2>ToDo 콘텐츠</h2>
-            <input
+            <ModalWriteTitles>ToDo 콘텐츠</ModalWriteTitles>
+            <ModalWriteInput
               placeholder="콘텐츠를 작성해주세요!"
               onChange={(e) => setTodoContent(e.target.value)}
             />
-            <button onClick={createSubmit}>제출</button>
-          </CreateModal>
+            <ModalSubmitBtn onClick={createSubmit}>제출</ModalSubmitBtn>
+          </ModalSpace>
           <Footer />
         </TodoContentsMain>
       ) : (
         <TodoContentsMain>
           <TodoTitle>MyToDo</TodoTitle>
           <ToDo datas={datas} refetch={refetch} />
+          <ScrollUpToDo>
+            {/* <ImArrowDown onClick={scrollDown} /> */}
+          </ScrollUpToDo>
+          <ScrollDownToDo>
+            {/* <ImArrowUp onClick={scrollUp} /> */}
+          </ScrollDownToDo>
           <CreateToDo onClick={addTodo}>추가</CreateToDo>
           <Footer />
         </TodoContentsMain>
@@ -97,7 +98,6 @@ function ToDoList() {
 const MainTodo = styled.div`
   width: 100%;
   height: 100vh;
-  border: 1px solid red;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -116,7 +116,6 @@ const TodoContentsMain = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid blue;
   opacity: 0.7;
   background-color: white;
   position: relative;
@@ -125,10 +124,26 @@ const TodoContentsMain = styled.div`
 const TodoTitle = styled.h2`
   width: 100%;
   height: 10%;
-  border: 1px solid red;
+  border-bottom: 3px solid violet;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+const ScrollUpToDo = styled.button`
+  font-size: 30px;
+  border: none;
+  position: absolute;
+  bottom: 40%;
+  right: 20px;
+  background-color: rgba(230, 230, 230, 0.1);
+`;
+const ScrollDownToDo = styled.button`
+  font-size: 30px;
+  border: none;
+  position: absolute;
+  top: 40%;
+  right: 20px;
+  background-color: rgba(230, 230, 230, 0.1);
 `;
 
 const CreateToDo = styled.button`
@@ -139,18 +154,31 @@ const CreateToDo = styled.button`
   bottom: 50px;
   right: 20px;
 `;
-const CreateModal = styled.div`
+
+const ModalSpace = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: space-around;
   align-items: center;
-  border: 1px solid blue;
-  width: 33%;
+  width: 26%;
   height: 30%;
-  top: 425px;
-
+  top: 470px;
   background-color: white;
+`;
+
+const ModalWriteTitles = styled.h1``;
+
+const ModalWriteInput = styled.input`
+  width: 70%;
+  height: 15%;
+  font-size: 15px;
+`;
+
+const ModalSubmitBtn = styled.button`
+  width: 20%;
+  height: 10%;
+  background-color: violet;
 `;
 
 export default ToDoList;
