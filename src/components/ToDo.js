@@ -120,7 +120,8 @@ const ToDoSpaceContent = styled.div`
   justify-content: space-around;
 `;
 const ToDoSpaceContents = styled.div`
-  border: 1px solid blue;
+  border: 3px solid blue;
+  border-radius: 5px;
   width: 90%;
   margin: 10px 0px;
   display: flex;
@@ -158,7 +159,6 @@ const ToDoDateSpace = styled.div`
   height: 20%;
   display: flex;
   justify-content: center;
-  border: 1px solid red;
   align-items: center;
   &:nth-child(1) {
     margin: 5px 0px;
