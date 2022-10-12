@@ -12,7 +12,7 @@ function ToDoList() {
   const [datas, isPending, error, refetch] = useFetch(
     "http://localhost:3001/memo/"
   );
-  // const [setClick, setDown] = useScroll();
+  const [clickUp, clickDown] = useScroll();
 
   const [isOpen, setIsOpen] = useState(false);
   const [todoContent, setTodoContent] = useState("");
@@ -22,15 +22,6 @@ function ToDoList() {
   const addTodo = () => {
     setIsOpen(!isOpen);
   };
-
-  // const scrollDown = () => {
-  //   setClick(true);
-  //   setDown(false);
-  // };
-  // const scrollUp = () => {
-  //   setClick(true);
-  //   setDown(true);
-  // };
 
   const createSubmit = () => {
     const data = {
@@ -80,10 +71,18 @@ function ToDoList() {
           <TodoTitle>MyToDo</TodoTitle>
           <ToDo datas={datas} refetch={refetch} />
           <ScrollUpToDo>
-            {/* <ImArrowDown onClick={scrollDown} /> */}
+            <ImArrowDown
+              onScroll={(e) => {
+                clickDown(e);
+              }}
+            />
           </ScrollUpToDo>
           <ScrollDownToDo>
-            {/* <ImArrowUp onClick={scrollUp} /> */}
+            <ImArrowUp
+              onScroll={(e) => {
+                clickUp(e);
+              }}
+            />
           </ScrollDownToDo>
           <CreateToDo onClick={addTodo}>추가</CreateToDo>
           <Footer />
