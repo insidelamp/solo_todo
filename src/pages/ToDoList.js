@@ -1,18 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Moon from "../img/moon-g4a048f6f2_640.jpg";
 import ToDo from "../components/ToDo";
 import useFetch from "../CutomComponent/useFetch";
 import { fetchCreate } from "../api/api";
-import { ImArrowUp, ImArrowDown } from "react-icons/im";
-import useScroll from "../CutomComponent/useScroll";
 
 function ToDoList() {
   const [datas, isPending, error, refetch] = useFetch(
     "http://localhost:3001/memo/"
   );
-  const [clickUp, clickDown] = useScroll();
 
   const [isOpen, setIsOpen] = useState(false);
   const [todoContent, setTodoContent] = useState("");
@@ -70,20 +67,7 @@ function ToDoList() {
         <TodoContentsMain>
           <TodoTitle>MyToDo</TodoTitle>
           <ToDo datas={datas} refetch={refetch} />
-          <ScrollUpToDo>
-            <ImArrowDown
-              onScroll={(e) => {
-                clickDown(e);
-              }}
-            />
-          </ScrollUpToDo>
-          <ScrollDownToDo>
-            <ImArrowUp
-              onScroll={(e) => {
-                clickUp(e);
-              }}
-            />
-          </ScrollDownToDo>
+
           <CreateToDo onClick={addTodo}>추가</CreateToDo>
           <Footer />
         </TodoContentsMain>
@@ -127,22 +111,6 @@ const TodoTitle = styled.h2`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-const ScrollUpToDo = styled.button`
-  font-size: 30px;
-  border: none;
-  position: absolute;
-  bottom: 40%;
-  right: 20px;
-  background-color: rgba(230, 230, 230, 0.1);
-`;
-const ScrollDownToDo = styled.button`
-  font-size: 30px;
-  border: none;
-  position: absolute;
-  top: 40%;
-  right: 20px;
-  background-color: rgba(230, 230, 230, 0.1);
 `;
 
 const CreateToDo = styled.button`

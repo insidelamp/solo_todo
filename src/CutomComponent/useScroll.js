@@ -1,32 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-const useScroll = () => {
-  const [click, setClick] = useState(0);
-  const [down, setDown] = useState(false);
+// 적용된 컴포넌트 진입시 페이지 맨 위로 스크롤해주는 커스텀 훅 예제입니다.
 
-  const clickUp = () => {
-    setClick(Date.now());
-    setDown(true);
-  };
-  const clickDown = () => {
-    setClick(Date.now());
-    setDown(false);
-  };
-
-  useEffect(
-    (e) => {
-      if (down === true) {
-        console.log(e);
-        window.scrollTo(0, 0);
-      } else if (down === false) {
-        window.scrollTo(100, 0);
-      }
-    },
-    [click]
-  );
-  return [clickUp, clickDown];
+const useScrollTop = () => {
+  const [click, setClick] = useState(false);
+  console.log(click);
+  useEffect(() => {
+    if (click === true) {
+      window.scrollTo(0, 0);
+    }
+  }, [click]);
+  return [setClick];
 };
 
-export default useScroll;
-
-//https://velog.io/@devstefancho/react-scroll-event-5e1vuub9
+export default useScrollTop;

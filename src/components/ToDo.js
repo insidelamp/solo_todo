@@ -1,14 +1,30 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import useFetch from "../CutomComponent/useFetch";
 import { fetchDelete, fetchPatch } from "../api/api";
+import { ImArrowUp, ImArrowDown } from "react-icons/im";
+import useScrollTop from "../CutomComponent/useScroll";
 function ToDo({ datas, refetch }) {
+  // const useScroll = () => {
+  //   const [state, setState] = useState({ x: 0, y: 0 });
+  //   const onScroll = (event) => {
+  //     setState({ y: window.scrollY, x: window.scrollX });
+  //   };
+  //   useEffect(() => {
+  //     window.addEventListener("scroll", onScroll);
+  //     return () => window.removeEventListener("scroll", onScroll);
+  //   }, []);
+  //   return state;
+  // };
+  // const scrollYY = useScroll();
   const [updataModal, setUpdataModal] = useState(false);
   const [updataTitle, setUpdataTitle] = useState("");
   const [updataContent, setUpdataContent] = useState("");
   const [upId, setUpId] = useState("");
-
+  const [setClick] = useScrollTop();
+  const goToTop = () => {
+    console.log(11);
+    setClick(true);
+  };
   const updateToDo = () => {
     // 수정 모달의 제출버튼에 먹일 함수
     let filterData = datas.filter((el) => el.id == upId);
@@ -95,6 +111,16 @@ function ToDo({ datas, refetch }) {
                   <ToDoBtn onClick={() => deleteToDo(data.id)}>삭제</ToDoBtn>
                 </ToDoBtnInteraction>
               </ToDoBtnSpace>
+              <ScrollUpToDo
+                onClick={() => {
+                  goToTop();
+                }}
+              >
+                <ImArrowUp />
+              </ScrollUpToDo>
+              <ScrollDownToDo>
+                <ImArrowDown />
+              </ScrollDownToDo>
             </ToDoSpaceContents>
           ))}
         </ToDoSpace>
@@ -112,6 +138,7 @@ const ToDoSpace = styled.div`
   align-items: center;
   overflow-y: scroll;
 `;
+/* color: ${scrollYY > 100 ? "blue" : "red"}; */
 const ToDoSpaceContent = styled.div`
   width: 100%;
   height: 100%;
@@ -205,6 +232,22 @@ const ModalSubmitBtn = styled.button`
   width: 20%;
   height: 10%;
   background-color: violet;
+`;
+const ScrollUpToDo = styled.button`
+  font-size: 30px;
+  border: none;
+  position: absolute;
+  bottom: 40%;
+  right: 20px;
+  background-color: rgba(230, 230, 230, 0.1);
+`;
+const ScrollDownToDo = styled.button`
+  font-size: 30px;
+  border: none;
+  position: absolute;
+  top: 40%;
+  right: 20px;
+  background-color: rgba(230, 230, 230, 0.1);
 `;
 
 export default ToDo;
