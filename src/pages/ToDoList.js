@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Moon from "../img/moon-g4a048f6f2_640.jpg";
@@ -14,22 +14,20 @@ function ToDoList() {
   const [isOpen, setIsOpen] = useState(false);
   const [todoContent, setTodoContent] = useState("");
   const [todoTitle, setTodoTitle] = useState("");
-  const [scroll, setScroll] = useState(false);
 
   const addTodo = () => {
     setIsOpen(!isOpen);
   };
 
   const createSubmit = () => {
+    let now = new Date();
+    let nowYear = now.getFullYear(); // 년
+    let nowMonth = now.getMonth() + 1; // 월
+    let nowDate = now.getDate(); // 월
     const data = {
       title: todoTitle,
       body: todoContent,
-      nowYear:
-        new Date().getFullYear() +
-        "." +
-        new Date().getDate() +
-        "." +
-        new Date().getDay(),
+      nowYear: nowYear + "." + nowMonth + "." + nowDate,
       nowDate: new Date().toLocaleTimeString(),
     };
     fetchCreate("http://localhost:3001/memo/", data);

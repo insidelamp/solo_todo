@@ -3,58 +3,23 @@
     {
       "title": "test1",
       "body": "test1",
-      "nowYear": "2022.11.2",
-      "nowDate": "오후 10:49:01",
+      "nowYear": "2022.10.14",
+      "nowDate": "오후 8:31:59",
       "id": 1
     },
     {
       "title": "test4",
       "body": "test4",
-      "nowYear": "2022.11.2",
-      "nowDate": "오후 10:48:44",
-      "id": 4
+      "nowYear": "2022.10.14",
+      "nowDate": "오후 8:32:47",
+      "id": 2
     },
     {
-      "title": "123",
-      "body": "123",
-      "nowYear": "2022.11.2",
-      "nowDate": "오후 11:09:42",
-      "id": 5
-    },
-    {
-      "title": "123",
-      "body": "1234",
-      "nowYear": "2022.11.2",
-      "nowDate": "오후 11:09:45",
-      "id": 6
-    },
-    {
-      "title": "12345",
-      "body": "1234",
-      "nowYear": "2022.11.2",
-      "nowDate": "오후 11:09:50",
-      "id": 7
-    },
-    {
-      "title": "1",
-      "body": "1",
-      "nowYear": "2022.11.2",
-      "nowDate": "오후 11:31:16",
-      "id": 8
-    },
-    {
-      "title": "test2",
-      "body": "test2",
-      "nowYear": "2022.13.4",
-      "nowDate": "오후 1:54:38",
-      "id": 9
-    },
-    {
-      "title": "test41",
-      "body": "test41",
-      "nowYear": "2022.13.4",
-      "nowDate": "오후 10:49:20",
-      "id": 10
+      "title": "test3",
+      "body": "test3",
+      "nowYear": "2022.10.14",
+      "nowDate": "오후 8:32:12",
+      "id": 3
     }
   ]
 }
