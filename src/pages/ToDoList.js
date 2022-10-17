@@ -42,6 +42,7 @@ function ToDoList() {
         <TodoContentsMain onClick={addTodo}>
           <TodoTitle>MyToDo</TodoTitle>
           <ToDo datas={datas} />
+
           <ModalSpace
             onClick={(e) => {
               e.stopPropagation();
@@ -64,6 +65,7 @@ function ToDoList() {
       ) : (
         <TodoContentsMain>
           <TodoTitle>MyToDo</TodoTitle>
+
           <ToDo datas={datas} refetch={refetch} />
 
           <CreateToDo onClick={addTodo}>추가</CreateToDo>

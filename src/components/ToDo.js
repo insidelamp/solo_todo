@@ -6,6 +6,18 @@ function ToDo({ datas, refetch }) {
   const [updataTitle, setUpdataTitle] = useState("");
   const [updataContent, setUpdataContent] = useState("");
   const [upId, setUpId] = useState("");
+  const [clickCheck, setClickCheck] = useState(false);
+  console.log(clickCheck);
+
+  const clickFunction = (checked, id) => {
+    let filterCheck = datas.filter((el) => el !== id);
+    console.log(filterCheck, id);
+    if (checked) {
+      setClickCheck(true);
+    } else {
+      setClickCheck(false);
+    }
+  };
 
   const updateToDo = () => {
     let now = new Date();
@@ -41,10 +53,24 @@ function ToDo({ datas, refetch }) {
         <ToDoSpace onClick={updateModal}>
           {datas?.map((data) => (
             <ToDoSpaceContents key={data.id}>
-              <ToDoSpaceContent>
-                <ToDoContentTitle>{data.title}</ToDoContentTitle>
-                <ToDoContentBody>{data.body}</ToDoContentBody>
-              </ToDoSpaceContent>
+              <CheckInput
+                type="checkbox"
+                onChange={(e) => {
+                  clickFunction(e.target.checked, data.id);
+                }}
+              />
+              {clickCheck ? (
+                <ToDoSpaceContentOpen>
+                  <ToDoContentTitle>{data.title}</ToDoContentTitle>
+                  <ToDoContentBody>{data.body}</ToDoContentBody>
+                </ToDoSpaceContentOpen>
+              ) : (
+                <ToDoSpaceContentClose>
+                  <ToDoContentTitle>{data.title}</ToDoContentTitle>
+                  <ToDoContentBody>{data.body}</ToDoContentBody>
+                </ToDoSpaceContentClose>
+              )}
+
               <ToDoBtnSpace>
                 <ToDoDateSpace>{data.nowYear}</ToDoDateSpace>
                 <ToDoDateSpace>{data.nowDate}</ToDoDateSpace>
@@ -80,10 +106,23 @@ function ToDo({ datas, refetch }) {
         <ToDoSpace>
           {datas?.map((data) => (
             <ToDoSpaceContents key={data.id}>
-              <ToDoSpaceContent>
-                <ToDoContentTitle>{data.title}</ToDoContentTitle>
-                <ToDoContentBody>{data.body}</ToDoContentBody>
-              </ToDoSpaceContent>
+              <CheckInput
+                type="checkbox"
+                onChange={(e) => {
+                  clickFunction(e.target.checked, data.id);
+                }}
+              />
+              {clickCheck ? (
+                <ToDoSpaceContentOpen>
+                  <ToDoContentTitle>{data.title}</ToDoContentTitle>
+                  <ToDoContentBody>{data.body}</ToDoContentBody>
+                </ToDoSpaceContentOpen>
+              ) : (
+                <ToDoSpaceContentClose>
+                  <ToDoContentTitle>{data.title}</ToDoContentTitle>
+                  <ToDoContentBody>{data.body}</ToDoContentBody>
+                </ToDoSpaceContentClose>
+              )}
               <ToDoBtnSpace>
                 <ToDoDateSpace>{data.nowYear}</ToDoDateSpace>
                 <ToDoDateSpace>{data.nowDate}</ToDoDateSpace>
@@ -101,7 +140,7 @@ function ToDo({ datas, refetch }) {
 }
 
 const ToDoSpace = styled.div`
-  width: 80%;
+  width: 90%;
   height: 100%;
   display: flex;
   margin-top: 20px;
@@ -110,12 +149,21 @@ const ToDoSpace = styled.div`
   overflow-y: scroll;
 `;
 /* color: ${scrollYY > 100 ? "blue" : "red"}; */
-const ToDoSpaceContent = styled.div`
-  width: 100%;
+const ToDoSpaceContentOpen = styled.div`
+  width: 60%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  border: 1px solid blue;
+`;
+const ToDoSpaceContentClose = styled.div`
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border: 1px solid red;
 `;
 const ToDoSpaceContents = styled.div`
   border: 3px solid blue;
@@ -125,6 +173,11 @@ const ToDoSpaceContents = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+const CheckInput = styled.input`
+  width: 30px;
+  height: 30px;
+  margin: 0px 5px;
 `;
 
 const ToDoContentTitle = styled.div`
@@ -149,7 +202,7 @@ const ToDoBtnSpace = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40%;
+  width: 35%;
   height: 100%;
 `;
 const ToDoDateSpace = styled.div`

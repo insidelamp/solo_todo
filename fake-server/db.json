@@ -8,18 +8,11 @@
       "id": 1
     },
     {
-      "title": "test4",
-      "body": "test4",
-      "nowYear": "2022.10.14",
-      "nowDate": "오후 8:32:47",
+      "title": "test2",
+      "body": "test2",
+      "nowYear": "2022.10.17",
+      "nowDate": "오후 2:49:38",
       "id": 2
-    },
-    {
-      "title": "test3",
-      "body": "test3",
-      "nowYear": "2022.10.14",
-      "nowDate": "오후 8:32:12",
-      "id": 3
     }
   ]
 }
