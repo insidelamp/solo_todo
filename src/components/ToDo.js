@@ -6,25 +6,12 @@ function ToDo({ datas, refetch }) {
   const [updataTitle, setUpdataTitle] = useState("");
   const [updataContent, setUpdataContent] = useState("");
   const [upId, setUpId] = useState("");
-  const [clickCheck, setClickCheck] = useState(false);
-  console.log(clickCheck);
-
-  const clickFunction = (checked, id) => {
-    let filterCheck = datas.filter((el) => el !== id);
-    console.log(filterCheck, id);
-    if (checked) {
-      setClickCheck(true);
-    } else {
-      setClickCheck(false);
-    }
-  };
 
   const updateToDo = () => {
     let now = new Date();
     let nowYear = now.getFullYear(); // 년
     let nowMonth = now.getMonth() + 1; // 월
     let nowDate = now.getDate(); // 월
-    // 수정 모달의 제출버튼에 먹일 함수
     let filterData = datas.filter((el) => el.id === upId);
     let fetchData = {
       id: filterData.id,
@@ -36,13 +23,11 @@ function ToDo({ datas, refetch }) {
     fetchPatch(`http://localhost:3001/memo/`, upId, fetchData);
   };
   const deleteToDo = (id) => {
-    // 제거 버튼에 먹일 함수
     fetchDelete("http://localhost:3001/memo/", id);
     refetch();
   };
 
   const updateModal = (id) => {
-    // 수정버튼에 먹일 함수
     setUpdataModal(!updataModal);
     setUpId(id);
     refetch();
@@ -53,24 +38,10 @@ function ToDo({ datas, refetch }) {
         <ToDoSpace onClick={updateModal}>
           {datas?.map((data) => (
             <ToDoSpaceContents key={data.id}>
-              <CheckInput
-                type="checkbox"
-                onChange={(e) => {
-                  clickFunction(e.target.checked, data.id);
-                }}
-              />
-              {clickCheck ? (
-                <ToDoSpaceContentOpen>
-                  <ToDoContentTitle>{data.title}</ToDoContentTitle>
-                  <ToDoContentBody>{data.body}</ToDoContentBody>
-                </ToDoSpaceContentOpen>
-              ) : (
-                <ToDoSpaceContentClose>
-                  <ToDoContentTitle>{data.title}</ToDoContentTitle>
-                  <ToDoContentBody>{data.body}</ToDoContentBody>
-                </ToDoSpaceContentClose>
-              )}
-
+              <ToDoSpaceContent>
+                <ToDoContentTitle>{data.title}</ToDoContentTitle>
+                <ToDoContentBody>{data.body}</ToDoContentBody>
+              </ToDoSpaceContent>
               <ToDoBtnSpace>
                 <ToDoDateSpace>{data.nowYear}</ToDoDateSpace>
                 <ToDoDateSpace>{data.nowDate}</ToDoDateSpace>
@@ -106,23 +77,10 @@ function ToDo({ datas, refetch }) {
         <ToDoSpace>
           {datas?.map((data) => (
             <ToDoSpaceContents key={data.id}>
-              <CheckInput
-                type="checkbox"
-                onChange={(e) => {
-                  clickFunction(e.target.checked, data.id);
-                }}
-              />
-              {clickCheck ? (
-                <ToDoSpaceContentOpen>
-                  <ToDoContentTitle>{data.title}</ToDoContentTitle>
-                  <ToDoContentBody>{data.body}</ToDoContentBody>
-                </ToDoSpaceContentOpen>
-              ) : (
-                <ToDoSpaceContentClose>
-                  <ToDoContentTitle>{data.title}</ToDoContentTitle>
-                  <ToDoContentBody>{data.body}</ToDoContentBody>
-                </ToDoSpaceContentClose>
-              )}
+              <ToDoSpaceContent>
+                <ToDoContentTitle>{data.title}</ToDoContentTitle>
+                <ToDoContentBody>{data.body}</ToDoContentBody>
+              </ToDoSpaceContent>
               <ToDoBtnSpace>
                 <ToDoDateSpace>{data.nowYear}</ToDoDateSpace>
                 <ToDoDateSpace>{data.nowDate}</ToDoDateSpace>
@@ -148,23 +106,14 @@ const ToDoSpace = styled.div`
   align-items: center;
   overflow-y: scroll;
 `;
-/* color: ${scrollYY > 100 ? "blue" : "red"}; */
-const ToDoSpaceContentOpen = styled.div`
+const ToDoSpaceContent = styled.div`
   width: 60%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  border: 1px solid blue;
 `;
-const ToDoSpaceContentClose = styled.div`
-  width: 60%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  border: 1px solid red;
-`;
+
 const ToDoSpaceContents = styled.div`
   border: 3px solid blue;
   border-radius: 5px;
@@ -173,11 +122,6 @@ const ToDoSpaceContents = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-const CheckInput = styled.input`
-  width: 30px;
-  height: 30px;
-  margin: 0px 5px;
 `;
 
 const ToDoContentTitle = styled.div`
