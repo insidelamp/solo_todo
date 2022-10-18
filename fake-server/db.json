@@ -4,22 +4,25 @@
       "title": "test4",
       "body": "test4",
       "nowYear": "2022.10.18",
-      "nowDate": "오후 3:35:34",
-      "id": 1
+      "nowDate": "오후 8:07:38",
+      "id": 1,
+      "check": false
     },
     {
       "title": "test2",
       "body": "test2",
       "nowYear": "2022.10.18",
-      "nowDate": "오후 3:31:30",
-      "id": 2
+      "nowDate": "오후 8:07:43",
+      "id": 2,
+      "check": false
     },
     {
       "title": "test3",
       "body": "test3",
       "nowYear": "2022.10.18",
-      "nowDate": "오후 3:33:02",
-      "id": 3
+      "nowDate": "오후 8:07:49",
+      "id": 3,
+      "check": false
     }
   ]
 }

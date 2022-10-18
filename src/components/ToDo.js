@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { fetchDelete, fetchPatch } from "../api/api";
 function ToDo({ datas, refetch }) {
@@ -6,6 +6,7 @@ function ToDo({ datas, refetch }) {
   const [updataTitle, setUpdataTitle] = useState("");
   const [updataContent, setUpdataContent] = useState("");
   const [upId, setUpId] = useState("");
+  const [isCheck, setIsCheck] = useState(true);
 
   const updateToDo = () => {
     let now = new Date();
@@ -13,6 +14,7 @@ function ToDo({ datas, refetch }) {
     let nowMonth = now.getMonth() + 1; // 월
     let nowDate = now.getDate(); // 월
     let filterData = datas.filter((el) => el.id === upId);
+
     let fetchData = {
       id: filterData.id,
       title: updataTitle,
@@ -21,6 +23,30 @@ function ToDo({ datas, refetch }) {
       nowDate: new Date().toLocaleTimeString(),
     };
     fetchPatch(`http://localhost:3001/memo/`, upId, fetchData);
+  };
+
+  const updateCheckToDo = (id, isCheck) => {
+    let now = new Date();
+    let nowYear = now.getFullYear(); // 년
+    let nowMonth = now.getMonth() + 1; // 월
+    let nowDate = now.getDate(); // 월
+    let filterData = datas.filter((el) => el.id === id);
+    if (isCheck) {
+      setIsCheck(false);
+    } else {
+      setIsCheck(true);
+    }
+
+    let fetchData = {
+      id: filterData[0].id,
+      title: filterData[0].title,
+      body: filterData[0].body,
+      nowYear: nowYear + "." + nowMonth + "." + nowDate,
+      nowDate: new Date().toLocaleTimeString(),
+      check: isCheck,
+    };
+    fetchPatch(`http://localhost:3001/memo/`, id, fetchData);
+    refetch();
   };
   const deleteToDo = (id) => {
     fetchDelete("http://localhost:3001/memo/", id);
@@ -40,7 +66,11 @@ function ToDo({ datas, refetch }) {
             <ToDoSpaceContents key={data.id}>
               <ToDoSpaceContent>
                 <ToDoContentTitle>{data.title}</ToDoContentTitle>
-                <ToDoContentBody>{data.body}</ToDoContentBody>
+                {data.check ? (
+                  <ToDoContentBodyCheck>{data.body}</ToDoContentBodyCheck>
+                ) : (
+                  <ToDoContentBody>{data.body}</ToDoContentBody>
+                )}
               </ToDoSpaceContent>
               <ToDoBtnSpace>
                 <ToDoDateSpace>{data.nowYear}</ToDoDateSpace>
@@ -77,9 +107,20 @@ function ToDo({ datas, refetch }) {
         <ToDoSpace>
           {datas?.map((data) => (
             <ToDoSpaceContents key={data.id}>
+              <CheckBox
+                type="checkbox"
+                onChange={(e) => e.target.checked}
+                onClick={() => {
+                  updateCheckToDo(data.id, isCheck);
+                }}
+              />
               <ToDoSpaceContent>
                 <ToDoContentTitle>{data.title}</ToDoContentTitle>
-                <ToDoContentBody>{data.body}</ToDoContentBody>
+                {data.check ? (
+                  <ToDoContentBodyCheck>{data.body}</ToDoContentBodyCheck>
+                ) : (
+                  <ToDoContentBody>{data.body}</ToDoContentBody>
+                )}
               </ToDoSpaceContent>
               <ToDoBtnSpace>
                 <ToDoDateSpace>{data.nowYear}</ToDoDateSpace>
@@ -105,6 +146,11 @@ const ToDoSpace = styled.div`
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
+`;
+const CheckBox = styled.input`
+  margin: 0px 5px;
+  width: 30px;
+  height: 30px;
 `;
 const ToDoSpaceContent = styled.div`
   width: 60%;
@@ -141,6 +187,16 @@ const ToDoContentBody = styled.div`
   width: 95%;
   color: blue;
   padding: 5px 0px 0px 5px;
+`;
+const ToDoContentBodyCheck = styled.div`
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-left: 5px;
+  height: 40%;
+  width: 95%;
+  color: blue;
+  padding: 5px 0px 0px 5px;
+  text-decoration: line-through;
 `;
 const ToDoBtnSpace = styled.div`
   display: flex;
